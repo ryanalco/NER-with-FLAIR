@@ -16,10 +16,10 @@ data_folder = 'resources'
 
 corpus: Corpus = ColumnCorpus(data_folder, columns,
                               train_file='eng.train.txt',
-                              test_file='eng.testa.txt')
+                              test_file='eng.testa.txt').downsample(.1)
                               #dev_file='eng.testb.txt')
 
-corpus = corpus.downsample(.4)
+#corpus = corpus.downsample(.4)
 
 #len(corpus.train)
 #print(corpus.train[0].to_tagged_string('pos'))
@@ -57,7 +57,7 @@ trainer: ModelTrainer = ModelTrainer(tagger, corpus)
 trainer.train('eng.testb.txt',
               learning_rate=0.1,
               mini_batch_size=32,
-              max_epochs=150)
+              max_epochs=10)
 
 
 
