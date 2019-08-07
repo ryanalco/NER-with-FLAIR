@@ -5,6 +5,8 @@ Created on Tues Jul 23 12:29:48 2019
 """
 
 from flair.data import Corpus
+from flair.models import SequenceTagger
+from flair.data import Sentence
 #from flair.datasets import ColumnCorpus
 import flair.datasets
 from flair.embeddings import TokenEmbeddings, WordEmbeddings, StackedEmbeddings, PooledFlairEmbeddings
@@ -26,8 +28,9 @@ corpus: Corpus = flair.datasets.ColumnCorpus(data_folder, columns,
  
 #Perform NER on a different already prepared dataset:                             
 #corpus = flair.datasets.WIKINER_ENGLISH().downsample(0.1)  
+corpus = text
                               
-                              
+'''                             
 #Perform flair on Biology dataset:
 columns = {0: 'text', 1: 'ner'}
 data_folder = 'resources'
@@ -76,7 +79,7 @@ trainer.train('eng.train.txt',
               learning_rate=0.1,
               mini_batch_size=32,
               max_epochs=10)
-
+'''
 
 
 ''' Practice with creating word embeddings using glove'''
@@ -97,16 +100,36 @@ for token in sentence:
 
 
 #Beginning NLTK processing on raw biology test
-'''
-raw = open('BioTest.txt').read()
-tokens = word_tokenize(raw)
 
-def ie_preprocess(document):
-    sentences = nltk.sent_tokenize(document) 
-    sentences = [nltk.word_tokenize(sent) for sent in sentences]
-    sentences = [nltk.pos_tag(sent) for sent in sentences]
+#raw = open('BioTest.txt').read()
+#tokens = word_tokenize(raw)
 
-'''    
+def process(doc):  
+    raw = open(doc).read()
+    tokens = word_tokenize(raw)
+    tagged_words = nltk.pos_tag(tokens)
+    print(tagged_words)
+    ne_tagged = nltk.ne_chunk(tagged_words, binary = False)
+    return ne_tagged
     
-    
-    
+    #sentences = nltk.sent_tokenize(document) 
+    #print (sentences)
+    '''
+    for sent in sentences:
+        for chunk in nltk.ne_chunk(nltk.pos_tag(nltk.word_tokenize(sent))):
+            if hasattr(chunk, 'label'):
+                print((c[0] for c in chunk), ' '.join(chunk.label()))
+    #print (sentences)
+    '''
+    '''
+    tagger = SequenceTagger.load('ner')
+    #sentences = [nltk.word_tokenize(sent) for sent in sentences]
+    #sentences = [nltk.pos_tag(sent) for sent in sentences]
+    for sent in sentences:
+        tagger.predict(sent)
+        #sent = str(sent)
+        print(sent.to_tagged_string())
+    '''
+
+text = process('BioTest.txt')
+#'BioTest.txt'    
