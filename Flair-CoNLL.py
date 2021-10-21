@@ -14,7 +14,7 @@ from typing import List
 import nltk, re, pprint
 from nltk import word_tokenize
 
-'''
+
 #Perform NER on CoNLL dataset:
 columns = {0: 'text', 1: 'pos', 2: 'synt', 3: 'ner'}
 
@@ -24,13 +24,13 @@ corpus: Corpus = flair.datasets.ColumnCorpus(data_folder, columns,
                               train_file='eng.train.txt',
                               test_file='eng.testa.txt').downsample(.1)
                               #dev_file='eng.testb.txt')
-'''                              
+                             
  
 #Perform NER on a different already prepared dataset:                             
 #corpus = flair.datasets.WIKINER_ENGLISH().downsample(0.1)  
 corpus = text
                               
-'''                             
+                            
 #Perform flair on Biology dataset:
 columns = {0: 'text', 1: 'ner'}
 data_folder = 'resources'
@@ -79,11 +79,11 @@ trainer.train('eng.train.txt',
               learning_rate=0.1,
               mini_batch_size=32,
               max_epochs=10)
-'''
+
 
 
 ''' Practice with creating word embeddings using glove'''
-'''
+
 glove_embedding = WordEmbeddings('glove')
 sentence = Sentence('The grass is green .')
 
@@ -94,7 +94,7 @@ glove_embedding.embed(sentence)
 for token in sentence:
     print(token)
     print(token.embedding)
-'''
+
 
 
 
@@ -114,14 +114,13 @@ def process(doc):
     
     #sentences = nltk.sent_tokenize(document) 
     #print (sentences)
-    '''
+    
     for sent in sentences:
         for chunk in nltk.ne_chunk(nltk.pos_tag(nltk.word_tokenize(sent))):
             if hasattr(chunk, 'label'):
                 print((c[0] for c in chunk), ' '.join(chunk.label()))
     #print (sentences)
-    '''
-    '''
+    
     tagger = SequenceTagger.load('ner')
     #sentences = [nltk.word_tokenize(sent) for sent in sentences]
     #sentences = [nltk.pos_tag(sent) for sent in sentences]
@@ -129,7 +128,6 @@ def process(doc):
         tagger.predict(sent)
         #sent = str(sent)
         print(sent.to_tagged_string())
-    '''
+    
 
 text = process('BioTest.txt')
-#'BioTest.txt'    
